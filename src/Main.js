@@ -85,7 +85,38 @@ class Main extends Component {
 
   }
 
+  componentDidMount() {
 
+    var bearer = 'Client-ID' + ' ' + 'FPc35COH1cdG_2eYN3wysGC-58bIvmru1n7BvjiPS4I';
+
+    fetch('https://api.unsplash.com' + '/photos', {
+      method: "GET",
+      headers: {
+        'Authorization': bearer,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => response.json())
+      .then((json) => {
+
+        const collectionArray = [];
+
+        json.map((item, index) => {
+          let obj = {
+            img: item.urls.small,
+            name: 'Image Name ' + index,
+            desc: 'Image Description ' + index
+          };
+          collectionArray.push(obj);
+        });
+
+        this.setState({ collectionArray });
+
+      })
+      .catch((error) => console.error(error))
+
+  }
 
   render() {
 
@@ -129,7 +160,7 @@ class Main extends Component {
                       <Draggable onDragRelease={() => this.dropOnCarousel(item, index)}>
                         <View style={styles.collectionItem}>
                           <Image source={{ uri: item.img }} style={styles.imgthumb} />
-                          <View>
+                          <View style={styles.itemDetails}>
                             <Text>{item.name}</Text>
                             <Text>{item.desc}</Text>
                           </View>
@@ -211,6 +242,9 @@ const styles = StyleSheet.create({
   imgthumb: {
     width: 40,
     height: 40
+  },
+  itemDetails: {
+    marginLeft: 10
   }
 });
 
