@@ -12,6 +12,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
+import Draggable from 'react-native-draggable';
 
 class Main extends Component {
 
@@ -38,6 +39,28 @@ class Main extends Component {
         name: 'Image Name 4',
         desc: 'Image Description 4'
       }
+    ],
+    collectionArray: [
+      {
+        img: './src/assets/big.jpg',
+        name: 'Image Name 21',
+        desc: 'Image Description 21'
+      },
+      {
+        img: './src/assets/big.jpg',
+        name: 'Image Name 22',
+        desc: 'Image Description 22'
+      },
+      {
+        img: './src/assets/big.jpg',
+        name: 'Image Name 23',
+        desc: 'Image Description 23'
+      },
+      {
+        img: 'big.jpg',
+        name: 'Image Name 24',
+        desc: 'Image Description 24'
+      }
     ]
   }
 
@@ -56,6 +79,10 @@ class Main extends Component {
 
   onChangeText(value) {
     this.setState({ searchText: value });
+  }
+
+  dropOnCarousel(item, dragIndex) {
+
   }
 
 
@@ -93,7 +120,27 @@ class Main extends Component {
           </View>
 
           <View>
-            <Text>collection</Text>
+
+            <View style={styles.collectionContainer}>
+              {
+                this.state.collectionArray.map((item, index) => {
+                  return (
+                    <View key={item.name} style={{ marginTop: index > 0 ? 70 : 0 }}>
+                      <Draggable onDragRelease={() => this.dropOnCarousel(item, index)}>
+                        <View style={styles.collectionItem}>
+                          <Image source={{ uri: item.img }} style={styles.imgthumb} />
+                          <View>
+                            <Text>{item.name}</Text>
+                            <Text>{item.desc}</Text>
+                          </View>
+                        </View>
+                      </Draggable>
+                    </View>
+                  )
+                })
+              }
+            </View>
+
           </View>
 
         </View>
@@ -147,6 +194,23 @@ const styles = StyleSheet.create({
     width: '60%',
     paddingVertical: 0,
     paddingHorizontal: 8
+  },
+  collectionContainer: {
+    borderWidth: 1,
+    borderColor: '#999',
+    margin: 20,
+    height: 180,
+  },
+  collectionItem: {
+    flexDirection: 'row',
+    margin: 20,
+    backgroundColor: '#e1e1e1',
+    padding: 10,
+    borderRadius: 15
+  },
+  imgthumb: {
+    width: 40,
+    height: 40
   }
 });
 
