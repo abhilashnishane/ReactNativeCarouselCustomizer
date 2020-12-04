@@ -16,6 +16,7 @@ import Carousel from 'react-native-snap-carousel';
 class Main extends Component {
 
   state = {
+    searchText: '',
     carouselArray: [
       {
         img: './src/assets/ab.jpg',
@@ -53,6 +54,10 @@ class Main extends Component {
     );
   }
 
+  onChangeText(value) {
+    this.setState({ searchText: value });
+  }
+
 
 
   render() {
@@ -76,6 +81,21 @@ class Main extends Component {
             sliderWidth={sliderWidth}
             itemWidth={itemWidth}
           />
+        </View>
+
+        <View>
+          <View style={styles.searchBoxContainer}>
+            <TextInput
+              style={styles.searchBox}
+              onChangeText={value => this.onChangeText(value)}
+              value={this.state.searchText}
+            />
+          </View>
+
+          <View>
+            <Text>collection</Text>
+          </View>
+
         </View>
 
       </View>
@@ -111,6 +131,22 @@ const styles = StyleSheet.create({
   },
   imgCaptionContainer: {
     alignItems: 'center'
+  },
+  searchBoxContainer: {
+    borderTopColor: '#cacaca',
+    borderTopWidth: 1,
+    borderBottomColor: '#cacaca',
+    borderBottomWidth: 1,
+  },
+  searchBox: {
+    height: 32,
+    backgroundColor: '#e1e1e1',
+    borderRadius: 100,
+    marginHorizontal: 20,
+    marginVertical: 4,
+    width: '60%',
+    paddingVertical: 0,
+    paddingHorizontal: 8
   }
 });
 
