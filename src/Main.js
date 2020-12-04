@@ -82,6 +82,24 @@ class Main extends Component {
   }
 
   dropOnCarousel(item, dragIndex) {
+    // item -> item that has been dragged
+    const elementsIndex = this._carousel.currentIndex;
+    let newArray = [...this.state.carouselArray];
+    // newArray[elementsIndex] = item;
+    newArray.splice(elementsIndex, 0, item); // Add 'item' at index 'elementsIndex' in array 'newArray' (and delete '0' elements)
+
+    let newCollectionArray = this.state.collectionArray;
+    newCollectionArray.splice(dragIndex, 1);
+
+    this.setState({
+      carouselArray: newArray
+    }, () => {
+
+      this.setState({
+        collectionArray: newCollectionArray
+      });
+
+    });
 
   }
 
