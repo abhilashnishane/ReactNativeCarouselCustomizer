@@ -62,7 +62,9 @@ class Main extends Component {
 
     return (
       <View>
-
+        <View style={styles.headerContainer}>
+          <Text style={styles.headerText}>Knowello</Text>
+        </View>
         <View style={styles.carouselContainer}>
           <Carousel
             containerCustomStyle={styles.carouselSelf}
@@ -82,6 +84,16 @@ class Main extends Component {
 }
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    backgroundColor: '#fff',
+    height: 50,
+    elevation: 10,
+    justifyContent: 'center'
+  },
+  headerText: {
+    fontSize: 18,
+    paddingHorizontal: 8
+  },
   carouselContainer: {
     alignItems: 'center',
     paddingVertical: 30
