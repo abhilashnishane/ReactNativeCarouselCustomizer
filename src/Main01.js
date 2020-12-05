@@ -179,6 +179,12 @@ class Main extends Component {
     });
   }
 
+  // scrollY = 0;
+  // handleScroll = (event) => {
+  //   // this.scrollY = event.nativeEvent.contentOffset.y;
+  //   console.log(event.nativeEvent.contentOffset.y);
+  // }
+
   componentDidMount() {
 
     var bearer = 'Client-ID' + ' ' + 'FPc35COH1cdG_2eYN3wysGC-58bIvmru1n7BvjiPS4I';
@@ -244,6 +250,7 @@ class Main extends Component {
                 onChangeText={value => this.onChangeText(value)}
                 value={this.state.searchText}
                 returnKeyType="search"
+                // onSubmitEditing={({nativeEvent: {text, eventCount, target}}) => this.submitSearch({nativeEvent: {text, eventCount, target}})}
                 onSubmitEditing={(event) => this.submitSearch(event)}
               />
             </View>
@@ -251,11 +258,12 @@ class Main extends Component {
             <View>
 
               <ScrollView horizontal style={styles.collectionContainer}>
+                <View><Text>Hello</Text></View>
                 {
                   this.state.collectionArray.map((item, index) => {
                     return (
                       <View key={item.name} style={{}}>
-                        <View style={{ width: 230 }}></View>
+                        <Text>ioioiioioioioi</Text>
                         <Draggable onDragRelease={() => this.dropOnCarousel(item, index)}>
                           <View style={styles.collectionItem}>
                             <Image source={{ uri: item.img }} style={styles.imgthumb} />
@@ -341,9 +349,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8
   },
   collectionContainer: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#999',
-    // margin: 10,
+    borderWidth: 1,
+    borderColor: '#999',
+    margin: 20,
     height: 180,
     // maxHeight: 180,
     // overflow: 'scroll'
