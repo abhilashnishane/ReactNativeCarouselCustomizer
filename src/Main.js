@@ -73,6 +73,7 @@ class Main extends Component {
           <Text>{item.name}</Text>
           <Text>{item.desc}</Text>
         </View>
+        <TouchableOpacity style={styles.deleteBtn} onPress={() => this.deleteCarouselItem(item, index)}><Text style={styles.deleteText}>x</Text></TouchableOpacity>
       </View>
     );
   }
@@ -139,6 +140,22 @@ class Main extends Component {
 
     });
 
+  }
+
+  // dropOnCollections(item, dragIndex) {
+
+  // }
+
+  deleteCarouselItem(item, index) {
+    // index -> index to delete from carousel
+    console.log('hello');
+    console.log(item, index);
+
+    let newCarouselArray = [...this.state.carouselArray];
+    newCarouselArray.splice(index, 1);
+    this.setState({
+      carouselArray: newCarouselArray
+    });
   }
 
   componentDidMount() {
@@ -269,6 +286,21 @@ const styles = StyleSheet.create({
   },
   imgCaptionContainer: {
     alignItems: 'center'
+  },
+  deleteBtn: {
+    position: 'absolute',
+    right: 7,
+    top: 7,
+    backgroundColor: '#cacaca',
+    width: 25,
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 100,
+    opacity: 0.5
+  },
+  deleteText: {
+    marginBottom: 4
   },
   searchBoxContainer: {
     borderTopColor: '#cacaca',
