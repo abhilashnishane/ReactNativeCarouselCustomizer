@@ -19,7 +19,6 @@ class Main extends Component {
 
   state = {
     searchText: '',
-    currentPage: 1,
     carouselArray: [
       {
         img: './src/assets/ab.jpg',
@@ -180,54 +179,6 @@ class Main extends Component {
     });
   }
 
-  gotoPrevPage() {
-    const { searchText, currentPage } = this.state;
-    const page = currentPage - 1;
-    this.fetchPrevOrNextPage(searchText, page);
-  }
-
-  gotoNextPage() {
-    const { searchText, currentPage } = this.state;
-    const page = currentPage + 1;
-    this.fetchPrevOrNextPage(searchText, page);
-  }
-
-  fetchPrevOrNextPage(searchText, page) {
-
-    var bearer = 'Client-ID' + ' ' + 'FPc35COH1cdG_2eYN3wysGC-58bIvmru1n7BvjiPS4I';
-
-    fetch('https://api.unsplash.com' + '/search/photos/?page=' + page + '&query=' + searchText, {
-      method: "GET",
-      headers: {
-        'Authorization': bearer,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        // console.log(json);
-        // console.log(json.results[0].urls.small);
-
-        const collectionArray = [];
-
-        json.results.map((item, index) => {
-          let obj = {
-            img: item.urls.small,
-            // img: item.urls.regular,
-            name: 'Image Name 10' + index,
-            desc: 'Image Description 10' + index
-          };
-          collectionArray.push(obj);
-        });
-
-        this.setState({ collectionArray, currentPage: page });
-
-      })
-      .catch((error) => console.error(error))
-
-  }
-
   componentDidMount() {
 
     var bearer = 'Client-ID' + ' ' + 'FPc35COH1cdG_2eYN3wysGC-58bIvmru1n7BvjiPS4I';
@@ -267,7 +218,7 @@ class Main extends Component {
     const itemWidth = 300;
 
     return (
-      <ScrollView>
+      <View>
         <View style={styles.headerContainer}>
           <Text style={styles.headerText}>Knowello</Text>
         </View>
@@ -320,27 +271,11 @@ class Main extends Component {
                 }
               </ScrollView>
 
-              <View style={styles.paginationContainer}>
-                {
-                  this.state.currentPage > 1
-                    ?
-                    <TouchableOpacity style={styles.navBtn} onPress={() => this.gotoPrevPage()}>
-                      <Text>prev</Text>
-                    </TouchableOpacity>
-                    :
-                    null
-                }
-
-                <TouchableOpacity style={styles.navBtn} onPress={() => this.gotoNextPage()}>
-                  <Text>next</Text>
-                </TouchableOpacity>
-              </View>
-
             </View>
           </View>
         </KeyboardAvoidingView>
 
-      </ScrollView>
+      </View>
     )
   }
 }
@@ -407,7 +342,7 @@ const styles = StyleSheet.create({
   },
   collectionContainer: {
     borderBottomWidth: 1,
-    borderBottomColor: '#cacaca',
+    borderBottomColor: '#999',
     // margin: 10,
     height: 180,
     // maxHeight: 180,
@@ -429,18 +364,6 @@ const styles = StyleSheet.create({
   },
   itemDetails: {
     marginLeft: 10
-  },
-  paginationContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10
-  },
-  navBtn: {
-    backgroundColor: '#e1e1e1',
-    borderRadius: 50,
-    paddingHorizontal: 10,
-    marginHorizontal: 20
   }
 });
 
