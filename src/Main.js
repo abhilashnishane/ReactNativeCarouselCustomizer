@@ -81,6 +81,44 @@ class Main extends Component {
     this.setState({ searchText: value });
   }
 
+  submitSearch(event) {
+    console.log(event.nativeEvent.text);
+    const searchText = event.nativeEvent.text;
+
+    var bearer = 'Client-ID' + ' ' + 'FPc35COH1cdG_2eYN3wysGC-58bIvmru1n7BvjiPS4I';
+
+    fetch('https://api.unsplash.com' + '/search/photos/?page=1&query=' + searchText, {
+      method: "GET",
+      headers: {
+        'Authorization': bearer,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        // console.log(json);
+        // console.log(json.results[0].urls.small);
+
+        const collectionArray = [];
+
+        json.results.map((item, index) => {
+          let obj = {
+            img: item.urls.small,
+            // img: item.urls.regular,
+            name: 'Image Name ' + index,
+            desc: 'Image Description ' + index
+          };
+          collectionArray.push(obj);
+        });
+
+        this.setState({ collectionArray });
+
+      })
+      .catch((error) => console.error(error))
+
+  }
+
   dropOnCarousel(item, dragIndex) {
     // item -> item that has been dragged
     const elementsIndex = this._carousel.currentIndex;
@@ -162,9 +200,13 @@ class Main extends Component {
         <View>
           <View style={styles.searchBoxContainer}>
             <TextInput
+              placeholder="search"
               style={styles.searchBox}
               onChangeText={value => this.onChangeText(value)}
               value={this.state.searchText}
+              returnKeyType="search"
+              // onSubmitEditing={({nativeEvent: {text, eventCount, target}}) => this.submitSearch({nativeEvent: {text, eventCount, target}})}
+              onSubmitEditing={(event) => this.submitSearch(event)}
             />
           </View>
 
@@ -249,6 +291,8 @@ const styles = StyleSheet.create({
     borderColor: '#999',
     margin: 20,
     height: 180,
+    // maxHeight: 180,
+    // overflow: 'scroll'
   },
   collectionItem: {
     flexDirection: 'row',
