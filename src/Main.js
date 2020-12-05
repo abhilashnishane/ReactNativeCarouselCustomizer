@@ -9,7 +9,8 @@ import {
   Image,
   TextInput,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import Draggable from 'react-native-draggable';
@@ -38,6 +39,26 @@ class Main extends Component {
         img: './src/assets/ab.jpg',
         name: 'Image Name 4',
         desc: 'Image Description 4'
+      },
+      {
+        img: './src/assets/ab.jpg',
+        name: 'Image Name 5',
+        desc: 'Image Description 5'
+      },
+      {
+        img: './src/assets/ab.jpg',
+        name: 'Image Name 6',
+        desc: 'Image Description 6'
+      },
+      {
+        img: './src/assets/ab.jpg',
+        name: 'Image Name 7',
+        desc: 'Image Description 7'
+      },
+      {
+        img: './src/assets/ab.jpg',
+        name: 'Image Name 8',
+        desc: 'Image Description 8'
       }
     ],
     collectionArray: [
@@ -107,8 +128,8 @@ class Main extends Component {
           let obj = {
             img: item.urls.small,
             // img: item.urls.regular,
-            name: 'Image Name ' + index,
-            desc: 'Image Description ' + index
+            name: 'Image Name 10' + index,
+            desc: 'Image Description 10' + index
           };
           collectionArray.push(obj);
         });
@@ -178,8 +199,8 @@ class Main extends Component {
         json.map((item, index) => {
           let obj = {
             img: item.urls.small,
-            name: 'Image Name ' + index,
-            desc: 'Image Description ' + index
+            name: 'Image Name 20' + index,
+            desc: 'Image Description 20' + index
           };
           collectionArray.push(obj);
         });
@@ -214,44 +235,45 @@ class Main extends Component {
           />
         </View>
 
-        <View>
-          <View style={styles.searchBoxContainer}>
-            <TextInput
-              placeholder="search"
-              style={styles.searchBox}
-              onChangeText={value => this.onChangeText(value)}
-              value={this.state.searchText}
-              returnKeyType="search"
-              // onSubmitEditing={({nativeEvent: {text, eventCount, target}}) => this.submitSearch({nativeEvent: {text, eventCount, target}})}
-              onSubmitEditing={(event) => this.submitSearch(event)}
-            />
-          </View>
-
-          <View>
-
-            <View style={styles.collectionContainer}>
-              {
-                this.state.collectionArray.map((item, index) => {
-                  return (
-                    <View key={item.name} style={{ marginTop: index > 0 ? 70 : 0 }}>
-                      <Draggable onDragRelease={() => this.dropOnCarousel(item, index)}>
-                        <View style={styles.collectionItem}>
-                          <Image source={{ uri: item.img }} style={styles.imgthumb} />
-                          <View style={styles.itemDetails}>
-                            <Text>{item.name}</Text>
-                            <Text>{item.desc}</Text>
-                          </View>
-                        </View>
-                      </Draggable>
-                    </View>
-                  )
-                })
-              }
+        <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={30} >
+          <View style={{ backgroundColor: '#fff' }}>
+            <View style={styles.searchBoxContainer}>
+              <TextInput
+                placeholder="search"
+                style={styles.searchBox}
+                onChangeText={value => this.onChangeText(value)}
+                value={this.state.searchText}
+                returnKeyType="search"
+                // onSubmitEditing={({nativeEvent: {text, eventCount, target}}) => this.submitSearch({nativeEvent: {text, eventCount, target}})}
+                onSubmitEditing={(event) => this.submitSearch(event)}
+              />
             </View>
 
-          </View>
+            <View>
 
-        </View>
+              <View style={styles.collectionContainer}>
+                {
+                  this.state.collectionArray.map((item, index) => {
+                    return (
+                      <View key={item.name} style={{ marginTop: index > 0 ? 70 : 0 }}>
+                        <Draggable onDragRelease={() => this.dropOnCarousel(item, index)}>
+                          <View style={styles.collectionItem}>
+                            <Image source={{ uri: item.img }} style={styles.imgthumb} />
+                            <View style={styles.itemDetails}>
+                              <Text>{item.name}</Text>
+                              <Text>{item.desc}</Text>
+                            </View>
+                          </View>
+                        </Draggable>
+                      </View>
+                    )
+                  })
+                }
+              </View>
+
+            </View>
+          </View>
+        </KeyboardAvoidingView>
 
       </View>
     )
