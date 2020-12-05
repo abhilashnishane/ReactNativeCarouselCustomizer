@@ -254,8 +254,8 @@ class Main extends Component {
                 {
                   this.state.collectionArray.map((item, index) => {
                     return (
-                      <View key={item.name} style={{}}>
-                        <View style={{ width: 230 }}></View>
+                      <View key={item.name}>
+                        <View style={styles.draggablesSibling}></View>
                         <Draggable onDragRelease={() => this.dropOnCarousel(item, index)}>
                           <View style={styles.collectionItem}>
                             <Image source={{ uri: item.img }} style={styles.imgthumb} />
@@ -347,6 +347,9 @@ const styles = StyleSheet.create({
     height: 180,
     // maxHeight: 180,
     // overflow: 'scroll'
+  },
+  draggablesSibling: {
+    width: 230
   },
   collectionItem: {
     flexDirection: 'row',
