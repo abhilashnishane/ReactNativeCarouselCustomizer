@@ -63,28 +63,7 @@ class Main extends Component {
         desc: 'Image Description 8'
       }
     ],
-    collectionArray: [
-      {
-        img: './src/assets/big.jpg',
-        name: 'Image Name 21',
-        desc: 'Image Description 21'
-      },
-      {
-        img: './src/assets/big.jpg',
-        name: 'Image Name 22',
-        desc: 'Image Description 22'
-      },
-      {
-        img: './src/assets/big.jpg',
-        name: 'Image Name 23',
-        desc: 'Image Description 23'
-      },
-      {
-        img: 'big.jpg',
-        name: 'Image Name 24',
-        desc: 'Image Description 24'
-      }
-    ]
+    collectionArray: []
   }
 
   _renderItem = ({ item, index }) => {
@@ -121,8 +100,6 @@ class Main extends Component {
     })
       .then((response) => response.json())
       .then((json) => {
-        // console.log(json);
-        // console.log(json.results[0].urls.small);
 
         const collectionArray = [];
 
@@ -143,38 +120,12 @@ class Main extends Component {
 
   }
 
-  // dropOnCarousel(item, dragIndex) {
-  //   // item -> item that has been dragged
-  //   const elementsIndex = this._carousel.currentIndex;
-  //   let newArray = [...this.state.carouselArray];
-  //   // newArray[elementsIndex] = item;
-  //   newArray.splice(elementsIndex, 0, item); // Add 'item' at index 'elementsIndex' in array 'newArray' (and delete '0' elements)
-
-  //   let newCollectionArray = this.state.collectionArray;
-  //   newCollectionArray.splice(dragIndex, 1);
-
-  //   this.setState({
-  //     carouselArray: newArray
-  //   }, () => {
-
-  //     this.setState({
-  //       collectionArray: newCollectionArray
-  //     });
-
-  //   });
-
-  // }
-
-
   dropOnCarousel(item) {
     // item -> item that has been dragged
     const elementsIndex = this._carousel.currentIndex;
     let newArray = [...this.state.carouselArray];
     // newArray[elementsIndex] = item;
     newArray.splice(elementsIndex, 0, item); // Add 'item' at index 'elementsIndex' in array 'newArray' (and delete '0' elements)
-
-    // let newCollectionArray = this.state.collectionArray;
-    // newCollectionArray.splice(dragIndex, 1);
 
     this.setState({
       carouselArray: newArray
@@ -190,8 +141,6 @@ class Main extends Component {
 
 
   collectionItemLongPress(item, dragIndex) {
-    console.log('long pressed');
-    // this.createCopyOfCollectionItem(item);
     this.setState({ copiedCollectionItem: item });
   }
 
@@ -211,10 +160,6 @@ class Main extends Component {
       </View>
     )
   }
-
-  // dropOnCollections(item, dragIndex) {
-
-  // }
 
   deleteCarouselItem(item, index) {
     // index -> index to delete from carousel
@@ -254,8 +199,6 @@ class Main extends Component {
     })
       .then((response) => response.json())
       .then((json) => {
-        // console.log(json);
-        // console.log(json.results[0].urls.small);
 
         const collectionArray = [];
 
@@ -335,16 +278,6 @@ class Main extends Component {
         <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={30} >
           <View style={{ backgroundColor: '#fff' }}>
 
-            {/* { } */}
-            {/* <View style={{ backgroundColor: 'pink', paddingVertical: 20, position: 'absolute', left: 100, bottom: 200, zIndex: 200 }}>
-              <Text style={{ width: 230 }}></Text>
-              <Draggable >
-                <View style={{ backgroundColor: '#999', paddingVertical: 10 }}>
-                  <Text>New Element</Text>
-                </View>
-              </Draggable>
-            </View> */}
-
             {
               this.state.copiedCollectionItem
                 ? this.createCopyOfCollectionItem(this.state.copiedCollectionItem)
@@ -370,9 +303,6 @@ class Main extends Component {
                     return (
                       <View key={item.name}>
                         <View style={styles.draggablesSibling}></View>
-                        {/* <Draggable onDragRelease={() => this.dropOnCarousel(item, index)} shouldReverse> */}
-                        {/* <Draggable shouldReverse> */}
-                        {/* <Draggable onLongPress={() => this.collectionItemLongPress(item, index)}> */}
                         <TouchableOpacity onLongPress={() => this.collectionItemLongPress(item, index)}>
                           <View style={styles.collectionItem}>
                             <Image source={{ uri: item.img }} style={styles.imgthumb} />
@@ -382,7 +312,6 @@ class Main extends Component {
                             </View>
                           </View>
                         </TouchableOpacity>
-                        {/* </Draggable> */}
                       </View>
                     )
                   })
@@ -477,10 +406,7 @@ const styles = StyleSheet.create({
   collectionContainer: {
     borderBottomWidth: 1,
     borderBottomColor: '#cacaca',
-    // margin: 10,
-    height: 180,
-    // maxHeight: 180,
-    // overflow: 'scroll'
+    height: 180
   },
   draggablesSibling: {
     width: 230
