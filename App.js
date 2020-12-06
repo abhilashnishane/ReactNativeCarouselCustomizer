@@ -9,12 +9,14 @@
 import React from 'react';
 import KeepAwake from 'react-native-keep-awake';
 import Main from './src/Main';
+import DragTest from './src/DragTest';
 
 function App() {
   return (
     <>
       <KeepAwake />
       <Main />
+      {/* <DragTest /> */}
     </>
   )
 }

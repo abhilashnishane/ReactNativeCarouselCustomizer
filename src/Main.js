@@ -20,6 +20,7 @@ class Main extends Component {
   state = {
     searchText: '',
     currentPage: 1,
+    copiedCollectionItem: null,
     carouselArray: [
       {
         img: './src/assets/ab.jpg',
@@ -142,26 +143,73 @@ class Main extends Component {
 
   }
 
-  dropOnCarousel(item, dragIndex) {
+  // dropOnCarousel(item, dragIndex) {
+  //   // item -> item that has been dragged
+  //   const elementsIndex = this._carousel.currentIndex;
+  //   let newArray = [...this.state.carouselArray];
+  //   // newArray[elementsIndex] = item;
+  //   newArray.splice(elementsIndex, 0, item); // Add 'item' at index 'elementsIndex' in array 'newArray' (and delete '0' elements)
+
+  //   let newCollectionArray = this.state.collectionArray;
+  //   newCollectionArray.splice(dragIndex, 1);
+
+  //   this.setState({
+  //     carouselArray: newArray
+  //   }, () => {
+
+  //     this.setState({
+  //       collectionArray: newCollectionArray
+  //     });
+
+  //   });
+
+  // }
+
+
+  dropOnCarousel(item) {
     // item -> item that has been dragged
     const elementsIndex = this._carousel.currentIndex;
     let newArray = [...this.state.carouselArray];
     // newArray[elementsIndex] = item;
     newArray.splice(elementsIndex, 0, item); // Add 'item' at index 'elementsIndex' in array 'newArray' (and delete '0' elements)
 
-    let newCollectionArray = this.state.collectionArray;
-    newCollectionArray.splice(dragIndex, 1);
+    // let newCollectionArray = this.state.collectionArray;
+    // newCollectionArray.splice(dragIndex, 1);
 
     this.setState({
       carouselArray: newArray
     }, () => {
 
       this.setState({
-        collectionArray: newCollectionArray
+        copiedCollectionItem: null
       });
 
     });
 
+  }
+
+
+  collectionItemLongPress(item, dragIndex) {
+    console.log('long pressed');
+    // this.createCopyOfCollectionItem(item);
+    this.setState({ copiedCollectionItem: item });
+  }
+
+  createCopyOfCollectionItem(item) {
+    return (
+      <View style={{ paddingVertical: 20, position: 'absolute', left: 100, bottom: 65, zIndex: 100 }}>
+        <Text style={{ width: 230 }}></Text>
+        <Draggable onDragRelease={() => this.dropOnCarousel(item)}>
+          <View style={[styles.collectionItem, styles.copiedCollectionItem]}>
+            <Image source={{ uri: item.img }} style={styles.imgthumb} />
+            <View style={styles.itemDetails}>
+              <Text>{item.name}</Text>
+              <Text>{item.desc}</Text>
+            </View>
+          </View>
+        </Draggable>
+      </View>
+    )
   }
 
   // dropOnCollections(item, dragIndex) {
@@ -286,6 +334,23 @@ class Main extends Component {
 
         <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={30} >
           <View style={{ backgroundColor: '#fff' }}>
+
+            {/* { } */}
+            {/* <View style={{ backgroundColor: 'pink', paddingVertical: 20, position: 'absolute', left: 100, bottom: 200, zIndex: 200 }}>
+              <Text style={{ width: 230 }}></Text>
+              <Draggable >
+                <View style={{ backgroundColor: '#999', paddingVertical: 10 }}>
+                  <Text>New Element</Text>
+                </View>
+              </Draggable>
+            </View> */}
+
+            {
+              this.state.copiedCollectionItem
+                ? this.createCopyOfCollectionItem(this.state.copiedCollectionItem)
+                : null
+            }
+
             <View style={styles.searchBoxContainer}>
               <TextInput
                 placeholder="search"
@@ -305,7 +370,10 @@ class Main extends Component {
                     return (
                       <View key={item.name}>
                         <View style={styles.draggablesSibling}></View>
-                        <Draggable onDragRelease={() => this.dropOnCarousel(item, index)}>
+                        {/* <Draggable onDragRelease={() => this.dropOnCarousel(item, index)} shouldReverse> */}
+                        {/* <Draggable shouldReverse> */}
+                        {/* <Draggable onLongPress={() => this.collectionItemLongPress(item, index)}> */}
+                        <TouchableOpacity onLongPress={() => this.collectionItemLongPress(item, index)}>
                           <View style={styles.collectionItem}>
                             <Image source={{ uri: item.img }} style={styles.imgthumb} />
                             <View style={styles.itemDetails}>
@@ -313,7 +381,8 @@ class Main extends Component {
                               <Text>{item.desc}</Text>
                             </View>
                           </View>
-                        </Draggable>
+                        </TouchableOpacity>
+                        {/* </Draggable> */}
                       </View>
                     )
                   })
@@ -422,6 +491,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#e1e1e1',
     padding: 10,
     borderRadius: 15
+  },
+  copiedCollectionItem: {
+    margin: 0
   },
   imgthumb: {
     width: 40,
