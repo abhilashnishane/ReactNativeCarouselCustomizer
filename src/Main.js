@@ -15,6 +15,9 @@ import {
 import Carousel from 'react-native-snap-carousel';
 import Draggable from 'react-native-draggable';
 
+const UNSPLASH_ROOT = 'https://api.unsplash.com';
+const BEARER = 'Client-ID' + ' ' + 'FPc35COH1cdG_2eYN3wysGC-58bIvmru1n7BvjiPS4I';
+
 class Main extends Component {
 
   state = {
@@ -85,15 +88,12 @@ class Main extends Component {
   }
 
   submitSearch(event) {
-    console.log(event.nativeEvent.text);
     const searchText = event.nativeEvent.text;
 
-    var bearer = 'Client-ID' + ' ' + 'FPc35COH1cdG_2eYN3wysGC-58bIvmru1n7BvjiPS4I';
-
-    fetch('https://api.unsplash.com' + '/search/photos/?page=1&query=' + searchText, {
+    fetch(UNSPLASH_ROOT + '/search/photos/?page=1&query=' + searchText, {
       method: "GET",
       headers: {
-        'Authorization': bearer,
+        'Authorization': BEARER,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
@@ -139,7 +139,6 @@ class Main extends Component {
 
   }
 
-
   collectionItemLongPress(item, dragIndex) {
     this.setState({ copiedCollectionItem: item });
   }
@@ -163,9 +162,6 @@ class Main extends Component {
 
   deleteCarouselItem(item, index) {
     // index -> index to delete from carousel
-    console.log('hello');
-    console.log(item, index);
-
     let newCarouselArray = [...this.state.carouselArray];
     newCarouselArray.splice(index, 1);
     this.setState({
@@ -187,12 +183,10 @@ class Main extends Component {
 
   fetchPrevOrNextPage(searchText, page) {
 
-    var bearer = 'Client-ID' + ' ' + 'FPc35COH1cdG_2eYN3wysGC-58bIvmru1n7BvjiPS4I';
-
-    fetch('https://api.unsplash.com' + '/search/photos/?page=' + page + '&query=' + searchText, {
+    fetch(UNSPLASH_ROOT + '/search/photos/?page=' + page + '&query=' + searchText, {
       method: "GET",
       headers: {
-        'Authorization': bearer,
+        'Authorization': BEARER,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
@@ -221,12 +215,10 @@ class Main extends Component {
 
   componentDidMount() {
 
-    var bearer = 'Client-ID' + ' ' + 'FPc35COH1cdG_2eYN3wysGC-58bIvmru1n7BvjiPS4I';
-
-    fetch('https://api.unsplash.com' + '/photos', {
+    fetch(UNSPLASH_ROOT + '/photos', {
       method: "GET",
       headers: {
-        'Authorization': bearer,
+        'Authorization': BEARER,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
